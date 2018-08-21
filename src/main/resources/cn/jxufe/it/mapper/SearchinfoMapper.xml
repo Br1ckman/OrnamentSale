@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.SearchinfoMapper">
+
+    <sql id="searchinfoBaseColumnSql">
+        s_id,
+        search_key,
+        member_id,
+        searchTime
+    </sql>
+
+    <sql id="searchinfoBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.SId)">
+                    s_id = #{map.SId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.searchKey)">
+                    AND search_key = #{map.searchKey}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberId)">
+                    AND member_id = #{map.memberId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.searchTime)">
+                    AND searchTime = #{map.searchTime}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertSearchinfo" parameterType="cn.jxufe.it.entity.Searchinfo">
+        INSERT INTO searchinfo(
+        <include refid="searchinfoBaseColumnSql"/>
+        )VALUES(
+            #{SId},
+            #{searchKey},
+            #{memberId},
+            #{searchTime}
+        )
+    </insert>
+
+    
+    <delete id="deleteSearchinfoBySId" parameterType="Integer">
+        DELETE FROM searchinfo WHERE s_id = #{SId}
+    </delete>
+
+    <update id="updateSearchinfo" parameterType="cn.jxufe.it.entity.Searchinfo">
+        UPDATE searchinfo
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(searchKey)">
+                search_key = #{searchKey} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberId)">
+                member_id = #{memberId} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(searchTime)">
+                searchTime = #{searchTime} ,
+            </if>
+        </set>
+        WHERE s_id = #{SId}
+    </update>
+
+    <select id="searchSearchinfoByParams" parameterType="map" resultMap="searchinfoMap">
+        SELECT
+        <include refid="searchinfoBaseColumnSql"/>
+        FROM searchinfo
+        <include refid="searchinfoBaseWhereSql"/>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.Searchinfo" id="searchinfoMap">
+        <id column="s_id" property="SId"/>
+        <result column="search_key" property="searchKey"/>
+        <result column="member_id" property="memberId"/>
+        <result column="searchTime" property="searchTime"/>
+    </resultMap>
+
+</mapper>

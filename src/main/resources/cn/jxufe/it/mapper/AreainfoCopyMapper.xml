@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.AreainfoCopyMapper">
+
+    <sql id="areainfoCopyBaseColumnSql">
+        area_id,
+        area_name,
+        area_parent_id,
+        area_sort,
+        area_deep,
+        GROUPID,
+        create_time,
+        update_time,
+        isHot
+    </sql>
+
+    <sql id="areainfoCopyBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.areaId)">
+                    area_id = #{map.areaId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.areaName)">
+                    AND area_name = #{map.areaName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.areaParentId)">
+                    AND area_parent_id = #{map.areaParentId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.areaSort)">
+                    AND area_sort = #{map.areaSort}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.areaDeep)">
+                    AND area_deep = #{map.areaDeep}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.groupid)">
+                    AND GROUPID = #{map.groupid}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.createTime)">
+                    AND create_time = #{map.createTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.updateTime)">
+                    AND update_time = #{map.updateTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.isHot)">
+                    AND isHot = #{map.isHot}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertAreainfoCopy" parameterType="cn.jxufe.it.entity.AreainfoCopy">
+        INSERT INTO areainfo_copy(
+        <include refid="areainfoCopyBaseColumnSql"/>
+        )VALUES(
+            #{areaId},
+            #{areaName},
+            #{areaParentId},
+            #{areaSort},
+            #{areaDeep},
+            #{groupid},
+            #{createTime},
+            #{updateTime},
+            #{isHot}
+        )
+    </insert>
+
+    
+    <delete id="deleteAreainfoCopyByAreaId" parameterType="Integer">
+        DELETE FROM areainfo_copy WHERE area_id = #{areaId}
+    </delete>
+
+    <update id="updateAreainfoCopy" parameterType="cn.jxufe.it.entity.AreainfoCopy">
+        UPDATE areainfo_copy
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(areaName)">
+                area_name = #{areaName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(areaParentId)">
+                area_parent_id = #{areaParentId} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(areaSort)">
+                area_sort = #{areaSort} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(areaDeep)">
+                area_deep = #{areaDeep} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(groupid)">
+                GROUPID = #{groupid} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(createTime)">
+                create_time = #{createTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(updateTime)">
+                update_time = #{updateTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(isHot)">
+                isHot = #{isHot} ,
+            </if>
+        </set>
+        WHERE area_id = #{areaId}
+    </update>
+
+    <select id="searchAreainfoCopyByParams" parameterType="map" resultMap="areainfoCopyMap">
+        SELECT
+        <include refid="areainfoCopyBaseColumnSql"/>
+        FROM areainfo_copy
+        <include refid="areainfoCopyBaseWhereSql"/>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.AreainfoCopy" id="areainfoCopyMap">
+        <id column="area_id" property="areaId"/>
+        <result column="area_name" property="areaName"/>
+        <result column="area_parent_id" property="areaParentId"/>
+        <result column="area_sort" property="areaSort"/>
+        <result column="area_deep" property="areaDeep"/>
+        <result column="GROUPID" property="groupid"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="isHot" property="isHot"/>
+    </resultMap>
+
+</mapper>

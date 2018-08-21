@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.AdvertisementMapper">
+
+    <sql id="advertisementBaseColumnSql">
+        adv_id,
+        adv_title,
+        adv_pic_url,
+        adv_offline,
+        adv_order,
+        adv_link_url,
+        adv_cratetime,
+        adv_updatetime
+    </sql>
+
+    <sql id="advertisementBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.advId)">
+                    adv_id = #{map.advId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.advTitle)">
+                    AND adv_title = #{map.advTitle}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.advPicUrl)">
+                    AND adv_pic_url = #{map.advPicUrl}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.advOffline)">
+                    AND adv_offline = #{map.advOffline}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.advOrder)">
+                    AND adv_order = #{map.advOrder}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.advLinkUrl)">
+                    AND adv_link_url = #{map.advLinkUrl}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.advCratetime)">
+                    AND adv_cratetime = #{map.advCratetime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.advUpdatetime)">
+                    AND adv_updatetime = #{map.advUpdatetime}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertAdvertisement" parameterType="cn.jxufe.it.entity.Advertisement">
+        INSERT INTO advertisement(
+        <include refid="advertisementBaseColumnSql"/>
+        )VALUES(
+            #{advId},
+            #{advTitle},
+            #{advPicUrl},
+            #{advOffline},
+            #{advOrder},
+            #{advLinkUrl},
+            #{advCratetime},
+            #{advUpdatetime}
+        )
+    </insert>
+
+    
+    <delete id="deleteAdvertisementByAdvId" parameterType="Integer">
+        DELETE FROM advertisement WHERE adv_id = #{advId}
+    </delete>
+
+    <update id="updateAdvertisement" parameterType="cn.jxufe.it.entity.Advertisement">
+        UPDATE advertisement
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(advTitle)">
+                adv_title = #{advTitle} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(advPicUrl)">
+                adv_pic_url = #{advPicUrl} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(advOffline)">
+                adv_offline = #{advOffline} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(advOrder)">
+                adv_order = #{advOrder} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(advLinkUrl)">
+                adv_link_url = #{advLinkUrl} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(advCratetime)">
+                adv_cratetime = #{advCratetime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(advUpdatetime)">
+                adv_updatetime = #{advUpdatetime} ,
+            </if>
+        </set>
+        WHERE adv_id = #{advId}
+    </update>
+
+    <select id="searchAdvertisementByParams" parameterType="map" resultMap="advertisementMap">
+        SELECT
+        <include refid="advertisementBaseColumnSql"/>
+        FROM advertisement
+        <include refid="advertisementBaseWhereSql"/>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.Advertisement" id="advertisementMap">
+        <id column="adv_id" property="advId"/>
+        <result column="adv_title" property="advTitle"/>
+        <result column="adv_pic_url" property="advPicUrl"/>
+        <result column="adv_offline" property="advOffline"/>
+        <result column="adv_order" property="advOrder"/>
+        <result column="adv_link_url" property="advLinkUrl"/>
+        <result column="adv_cratetime" property="advCratetime"/>
+        <result column="adv_updatetime" property="advUpdatetime"/>
+    </resultMap>
+
+</mapper>

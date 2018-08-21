@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.MemberaddressMapper">
+
+    <sql id="memberaddressBaseColumnSql">
+        addressid,
+        provinceName,
+        cityName,
+        areaName,
+        detailaddress,
+        memberId,
+        isdefault
+    </sql>
+
+    <sql id="memberaddressBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.addressid)">
+                    addressid = #{map.addressid}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.provinceName)">
+                    AND provinceName = #{map.provinceName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.cityName)">
+                    AND cityName = #{map.cityName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.areaName)">
+                    AND areaName = #{map.areaName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.detailaddress)">
+                    AND detailaddress = #{map.detailaddress}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberId)">
+                    AND memberId = #{map.memberId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.isdefault)">
+                    AND isdefault = #{map.isdefault}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertMemberaddress" parameterType="cn.jxufe.it.entity.Memberaddress">
+        INSERT INTO memberaddress(
+        <include refid="memberaddressBaseColumnSql"/>
+        )VALUES(
+            #{addressid},
+            #{provinceName},
+            #{cityName},
+            #{areaName},
+            #{detailaddress},
+            #{memberId},
+            #{isdefault}
+        )
+    </insert>
+
+    
+    <delete id="deleteMemberaddressByAddressid" parameterType="Integer">
+        DELETE FROM memberaddress WHERE addressid = #{addressid}
+    </delete>
+
+    <update id="updateMemberaddress" parameterType="cn.jxufe.it.entity.Memberaddress">
+        UPDATE memberaddress
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(provinceName)">
+                provinceName = #{provinceName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(cityName)">
+                cityName = #{cityName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(areaName)">
+                areaName = #{areaName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(detailaddress)">
+                detailaddress = #{detailaddress} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberId)">
+                memberId = #{memberId} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(isdefault)">
+                isdefault = #{isdefault} ,
+            </if>
+        </set>
+        WHERE addressid = #{addressid}
+    </update>
+
+    <select id="searchMemberaddressByParams" parameterType="map" resultMap="memberaddressMap">
+        SELECT
+        <include refid="memberaddressBaseColumnSql"/>
+        FROM memberaddress
+        <include refid="memberaddressBaseWhereSql"/>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.Memberaddress" id="memberaddressMap">
+        <id column="addressid" property="addressid"/>
+        <result column="provinceName" property="provinceName"/>
+        <result column="cityName" property="cityName"/>
+        <result column="areaName" property="areaName"/>
+        <result column="detailaddress" property="detailaddress"/>
+        <result column="memberId" property="memberId"/>
+        <result column="isdefault" property="isdefault"/>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.CollectioninfoMapper">
+
+    <sql id="collectioninfoBaseColumnSql">
+        cid,
+        memberid,
+        goodsid,
+        c_time
+    </sql>
+
+    <sql id="collectioninfoBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.cid)">
+                    cid = #{map.cid}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberid)">
+                    AND memberid = #{map.memberid}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsid)">
+                    AND goodsid = #{map.goodsid}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.CTime)">
+                    AND c_time = #{map.CTime}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertCollectioninfo" parameterType="cn.jxufe.it.entity.Collectioninfo">
+        INSERT INTO collectioninfo(
+        <include refid="collectioninfoBaseColumnSql"/>
+        )VALUES(
+            #{cid},
+            #{memberid},
+            #{goodsid},
+            #{CTime}
+        )
+    </insert>
+
+    
+    <delete id="deleteCollectioninfoByCid" parameterType="Integer">
+        DELETE FROM collectioninfo WHERE cid = #{cid}
+    </delete>
+
+    <update id="updateCollectioninfo" parameterType="cn.jxufe.it.entity.Collectioninfo">
+        UPDATE collectioninfo
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberid)">
+                memberid = #{memberid} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsid)">
+                goodsid = #{goodsid} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(CTime)">
+                c_time = #{CTime} ,
+            </if>
+        </set>
+        WHERE cid = #{cid}
+    </update>
+
+    <select id="searchCollectioninfoByParams" parameterType="map" resultMap="collectioninfoMap">
+        SELECT
+        <include refid="collectioninfoBaseColumnSql"/>
+        FROM collectioninfo
+        <include refid="collectioninfoBaseWhereSql"/>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.Collectioninfo" id="collectioninfoMap">
+        <id column="cid" property="cid"/>
+        <result column="memberid" property="memberid"/>
+        <result column="goodsid" property="goodsid"/>
+        <result column="c_time" property="CTime"/>
+    </resultMap>
+
+</mapper>

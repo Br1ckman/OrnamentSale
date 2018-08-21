@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.MemberinfoMapper">
+
+    <sql id="memberinfoBaseColumnSql">
+        member_id,
+        member_mobile,
+        member_name,
+        member_birthday,
+        member_passwd,
+        member_email,
+        member_ww,
+        member_login_num,
+        create_time,
+        member_login_time,
+        member_old_login_time,
+        member_login_ip,
+        member_old_login_ip,
+        is_sell,
+        member_state,
+        member_pic
+    </sql>
+
+    <sql id="memberinfoBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberId)">
+                    member_id = #{map.memberId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberMobile)">
+                    AND member_mobile = #{map.memberMobile}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberName)">
+                    AND member_name = #{map.memberName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberBirthday)">
+                    AND member_birthday = #{map.memberBirthday}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberPasswd)">
+                    AND member_passwd = #{map.memberPasswd}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberEmail)">
+                    AND member_email = #{map.memberEmail}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberWw)">
+                    AND member_ww = #{map.memberWw}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberLoginNum)">
+                    AND member_login_num = #{map.memberLoginNum}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.createTime)">
+                    AND create_time = #{map.createTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberLoginTime)">
+                    AND member_login_time = #{map.memberLoginTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberOldLoginTime)">
+                    AND member_old_login_time = #{map.memberOldLoginTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberLoginIp)">
+                    AND member_login_ip = #{map.memberLoginIp}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberOldLoginIp)">
+                    AND member_old_login_ip = #{map.memberOldLoginIp}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.isSell)">
+                    AND is_sell = #{map.isSell}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberState)">
+                    AND member_state = #{map.memberState}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberPic)">
+                    AND member_pic = #{map.memberPic}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertMemberinfo" parameterType="cn.jxufe.it.entity.Memberinfo">
+        INSERT INTO memberinfo(
+        <include refid="memberinfoBaseColumnSql"/>
+        )VALUES(
+            #{memberId},
+            #{memberMobile},
+            #{memberName},
+            #{memberBirthday},
+            #{memberPasswd},
+            #{memberEmail},
+            #{memberWw},
+            #{memberLoginNum},
+            #{createTime},
+            #{memberLoginTime},
+            #{memberOldLoginTime},
+            #{memberLoginIp},
+            #{memberOldLoginIp},
+            #{isSell},
+            #{memberState},
+            #{memberPic}
+        )
+    </insert>
+
+    
+    <delete id="deleteMemberinfoByMemberId" parameterType="Integer">
+        DELETE FROM memberinfo WHERE member_id = #{memberId}
+    </delete>
+
+    <update id="updateMemberinfo" parameterType="cn.jxufe.it.entity.Memberinfo">
+        UPDATE memberinfo
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberMobile)">
+                member_mobile = #{memberMobile} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberName)">
+                member_name = #{memberName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberBirthday)">
+                member_birthday = #{memberBirthday} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberPasswd)">
+                member_passwd = #{memberPasswd} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberEmail)">
+                member_email = #{memberEmail} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberWw)">
+                member_ww = #{memberWw} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberLoginNum)">
+                member_login_num = #{memberLoginNum} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(createTime)">
+                create_time = #{createTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberLoginTime)">
+                member_login_time = #{memberLoginTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberOldLoginTime)">
+                member_old_login_time = #{memberOldLoginTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberLoginIp)">
+                member_login_ip = #{memberLoginIp} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberOldLoginIp)">
+                member_old_login_ip = #{memberOldLoginIp} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(isSell)">
+                is_sell = #{isSell} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberState)">
+                member_state = #{memberState} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberPic)">
+                member_pic = #{memberPic} ,
+            </if>
+        </set>
+        WHERE member_id = #{memberId}
+    </update>
+
+    <select id="searchMemberinfoByParams" parameterType="map" resultMap="memberinfoMap">
+        SELECT
+        <include refid="memberinfoBaseColumnSql"/>
+        FROM memberinfo
+        <include refid="memberinfoBaseWhereSql"/>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.Memberinfo" id="memberinfoMap">
+        <id column="member_id" property="memberId"/>
+        <result column="member_mobile" property="memberMobile"/>
+        <result column="member_name" property="memberName"/>
+        <result column="member_birthday" property="memberBirthday"/>
+        <result column="member_passwd" property="memberPasswd"/>
+        <result column="member_email" property="memberEmail"/>
+        <result column="member_ww" property="memberWw"/>
+        <result column="member_login_num" property="memberLoginNum"/>
+        <result column="create_time" property="createTime"/>
+        <result column="member_login_time" property="memberLoginTime"/>
+        <result column="member_old_login_time" property="memberOldLoginTime"/>
+        <result column="member_login_ip" property="memberLoginIp"/>
+        <result column="member_old_login_ip" property="memberOldLoginIp"/>
+        <result column="is_sell" property="isSell"/>
+        <result column="member_state" property="memberState"/>
+        <result column="member_pic" property="memberPic"/>
+    </resultMap>
+
+</mapper>

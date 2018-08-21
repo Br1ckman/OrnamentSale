@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.AdminMapper">
+
+    <sql id="adminBaseColumnSql">
+        admin_id,
+        admin_name,
+        admin_password,
+        admin_login_num,
+        admin_is_super,
+        is_disable,
+        admin_login_time,
+        created_time,
+        updated_time
+    </sql>
+
+    <sql id="adminBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.adminId)">
+                    admin_id = #{map.adminId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.adminName)">
+                    AND admin_name = #{map.adminName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.adminPassword)">
+                    AND admin_password = #{map.adminPassword}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.adminLoginNum)">
+                    AND admin_login_num = #{map.adminLoginNum}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.adminIsSuper)">
+                    AND admin_is_super = #{map.adminIsSuper}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.isDisable)">
+                    AND is_disable = #{map.isDisable}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.adminLoginTime)">
+                    AND admin_login_time = #{map.adminLoginTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.createdTime)">
+                    AND created_time = #{map.createdTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.updatedTime)">
+                    AND updated_time = #{map.updatedTime}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertAdmin" parameterType="cn.jxufe.it.entity.Admin">
+        INSERT INTO admin(
+        <include refid="adminBaseColumnSql"/>
+        )VALUES(
+            #{adminId},
+            #{adminName},
+            #{adminPassword},
+            #{adminLoginNum},
+            #{adminIsSuper},
+            #{isDisable},
+            #{adminLoginTime},
+            #{createdTime},
+            #{updatedTime}
+        )
+    </insert>
+
+    
+    <delete id="deleteAdminByAdminId" parameterType="Integer">
+        DELETE FROM admin WHERE admin_id = #{adminId}
+    </delete>
+
+    <update id="updateAdmin" parameterType="cn.jxufe.it.entity.Admin">
+        UPDATE admin
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(adminName)">
+                admin_name = #{adminName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(adminPassword)">
+                admin_password = #{adminPassword} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(adminLoginNum)">
+                admin_login_num = #{adminLoginNum} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(adminIsSuper)">
+                admin_is_super = #{adminIsSuper} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(isDisable)">
+                is_disable = #{isDisable} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(adminLoginTime)">
+                admin_login_time = #{adminLoginTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(createdTime)">
+                created_time = #{createdTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(updatedTime)">
+                updated_time = #{updatedTime} ,
+            </if>
+        </set>
+        WHERE admin_id = #{adminId}
+    </update>
+
+    <select id="searchAdminByParams" parameterType="map" resultMap="adminMap">
+        SELECT
+        <include refid="adminBaseColumnSql"/>
+        FROM admin
+        <include refid="adminBaseWhereSql"/>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.Admin" id="adminMap">
+        <id column="admin_id" property="adminId"/>
+        <result column="admin_name" property="adminName"/>
+        <result column="admin_password" property="adminPassword"/>
+        <result column="admin_login_num" property="adminLoginNum"/>
+        <result column="admin_is_super" property="adminIsSuper"/>
+        <result column="is_disable" property="isDisable"/>
+        <result column="admin_login_time" property="adminLoginTime"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+</mapper>

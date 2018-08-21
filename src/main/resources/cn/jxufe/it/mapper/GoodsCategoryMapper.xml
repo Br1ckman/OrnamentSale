@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.GoodsCategoryMapper">
+
+    <sql id="goodsCategoryBaseColumnSql">
+        cat_id,
+        cat_name,
+        sort,
+        description,
+        is_offline,
+        created_time,
+        updated_time
+    </sql>
+
+    <sql id="goodsCategoryBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.catId)">
+                    cat_id = #{map.catId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.catName)">
+                    AND cat_name = #{map.catName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.sort)">
+                    AND sort = #{map.sort}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.description)">
+                    AND description = #{map.description}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.isOffline)">
+                    AND is_offline = #{map.isOffline}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.createdTime)">
+                    AND created_time = #{map.createdTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.updatedTime)">
+                    AND updated_time = #{map.updatedTime}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertGoodsCategory" parameterType="cn.jxufe.it.entity.GoodsCategory">
+        INSERT INTO goods_category(
+        <include refid="goodsCategoryBaseColumnSql"/>
+        )VALUES(
+            #{catId},
+            #{catName},
+            #{sort},
+            #{description},
+            #{isOffline},
+            #{createdTime},
+            #{updatedTime}
+        )
+    </insert>
+
+    
+    <delete id="deleteGoodsCategoryByCatId" parameterType="Integer">
+        DELETE FROM goods_category WHERE cat_id = #{catId}
+    </delete>
+
+    <update id="updateGoodsCategory" parameterType="cn.jxufe.it.entity.GoodsCategory">
+        UPDATE goods_category
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(catName)">
+                cat_name = #{catName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(sort)">
+                sort = #{sort} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(description)">
+                description = #{description} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(isOffline)">
+                is_offline = #{isOffline} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(createdTime)">
+                created_time = #{createdTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(updatedTime)">
+                updated_time = #{updatedTime} ,
+            </if>
+        </set>
+        WHERE cat_id = #{catId}
+    </update>
+
+    <select id="searchGoodsCategoryByParams" parameterType="map" resultMap="goodsCategoryMap">
+        SELECT
+        <include refid="goodsCategoryBaseColumnSql"/>
+        FROM goods_category
+        <include refid="goodsCategoryBaseWhereSql"/>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.GoodsCategory" id="goodsCategoryMap">
+        <id column="cat_id" property="catId"/>
+        <result column="cat_name" property="catName"/>
+        <result column="sort" property="sort"/>
+        <result column="description" property="description"/>
+        <result column="is_offline" property="isOffline"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+</mapper>

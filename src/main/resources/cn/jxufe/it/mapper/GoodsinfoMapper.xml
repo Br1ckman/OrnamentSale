@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.GoodsinfoMapper">
+
+    <sql id="goodsinfoBaseColumnSql">
+        goods_id,
+        goods_name,
+        goods_subtitle,
+        gc_id,
+        gc_name,
+        goods_price,
+        goods_sell_price,
+        goods_image,
+        goods_click,
+        goods_state,
+        goods_commend,
+        goods_close_reason,
+        comment_num,
+        thumbs_up_num,
+        salenum_num,
+        goods_collect_num,
+        is_del,
+        member_id,
+        stock,
+        update_time,
+        create_time
+    </sql>
+
+    <sql id="goodsinfoBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsId)">
+                    goods_id = #{map.goodsId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsName)">
+                    AND goods_name like #{map.goodsName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsSubtitle)">
+                    AND goods_subtitle = #{map.goodsSubtitle}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.gcId)">
+                    AND gc_id = #{map.gcId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.gcName)">
+                    AND gc_name = #{map.gcName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsPrice)">
+                    AND goods_price = #{map.goodsPrice}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsSellPrice)">
+                    AND goods_sell_price = #{map.goodsSellPrice}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsImage)">
+                    AND goods_image = #{map.goodsImage}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsClick)">
+                    AND goods_click = #{map.goodsClick}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsState)">
+                    AND goods_state = #{map.goodsState}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsCommend)">
+                    AND goods_commend = #{map.goodsCommend}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsCloseReason)">
+                    AND goods_close_reason = #{map.goodsCloseReason}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.commentNum)">
+                    AND comment_num = #{map.commentNum}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.thumbsUpNum)">
+                    AND thumbs_up_num = #{map.thumbsUpNum}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.salenumNum)">
+                    AND salenum_num = #{map.salenumNum}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.goodsCollectNum)">
+                    AND goods_collect_num = #{map.goodsCollectNum}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.isDel)">
+                    AND is_del = #{map.isDel}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.memberId)">
+                    AND member_id = #{map.memberId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.stock)">
+                    AND stock = #{map.stock}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.updateTime)">
+                    AND update_time = #{map.updateTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.createTime)">
+                    AND create_time = #{map.createTime}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertGoodsinfo" parameterType="cn.jxufe.it.entity.Goodsinfo">
+        INSERT INTO goodsinfo(
+        <include refid="goodsinfoBaseColumnSql"/>
+        )VALUES(
+            #{goodsId},
+            #{goodsName},
+            #{goodsSubtitle},
+            #{gcId},
+            #{gcName},
+            #{goodsPrice},
+            #{goodsSellPrice},
+            #{goodsImage},
+            #{goodsClick},
+            #{goodsState},
+            #{goodsCommend},
+            #{goodsCloseReason},
+            #{commentNum},
+            #{thumbsUpNum},
+            #{salenumNum},
+            #{goodsCollectNum},
+            #{isDel},
+            #{memberId},
+            #{stock},
+            #{updateTime},
+            #{createTime}
+        )
+    </insert>
+
+    
+    <delete id="deleteGoodsinfoByGoodsId" parameterType="Integer">
+        DELETE FROM goodsinfo WHERE goods_id = #{goodsId}
+    </delete>
+
+    <update id="updateGoodsinfo" parameterType="cn.jxufe.it.entity.Goodsinfo">
+        UPDATE goodsinfo
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsName)">
+                goods_name = #{goodsName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsSubtitle)">
+                goods_subtitle = #{goodsSubtitle} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(gcId)">
+                gc_id = #{gcId} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(gcName)">
+                gc_name = #{gcName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsPrice)">
+                goods_price = #{goodsPrice} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsSellPrice)">
+                goods_sell_price = #{goodsSellPrice} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsImage)">
+                goods_image = #{goodsImage} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsClick)">
+                goods_click = #{goodsClick} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsState)">
+                goods_state = #{goodsState} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsCommend)">
+                goods_commend = #{goodsCommend} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsCloseReason)">
+                goods_close_reason = #{goodsCloseReason} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(commentNum)">
+                comment_num = #{commentNum} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(thumbsUpNum)">
+                thumbs_up_num = #{thumbsUpNum} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(salenumNum)">
+                salenum_num = #{salenumNum} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(goodsCollectNum)">
+                goods_collect_num = #{goodsCollectNum} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(isDel)">
+                is_del = #{isDel} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(memberId)">
+                member_id = #{memberId} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(stock)">
+                stock = #{stock} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(updateTime)">
+                update_time = #{updateTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(createTime)">
+                create_time = #{createTime} ,
+            </if>
+        </set>
+        WHERE goods_id = #{goodsId}
+    </update>
+
+    <select id="searchGoodsinfoByParams" parameterType="map" resultMap="goodsinfoMap">
+        SELECT
+        <include refid="goodsinfoBaseColumnSql"/>
+        FROM goodsinfo
+        <include refid="goodsinfoBaseWhereSql"/>
+    </select>
+
+    <select id="searchGoodsCategoryBySort" parameterType="map" resultMap="goodsinfoMap">
+        select * from goodsinfo
+        <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.gcId)">
+            where gc_id = ${map.gcId}
+        </if>
+        order by ${map.sort}
+        <if test="map!=null" >
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.asc)">
+                ${map.asc}
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.desc)">
+                ${map.desc}
+            </if>
+        </if>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.Goodsinfo" id="goodsinfoMap">
+        <id column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_subtitle" property="goodsSubtitle"/>
+        <result column="gc_id" property="gcId"/>
+        <result column="gc_name" property="gcName"/>
+        <result column="goods_price" property="goodsPrice"/>
+        <result column="goods_sell_price" property="goodsSellPrice"/>
+        <result column="goods_image" property="goodsImage"/>
+        <result column="goods_click" property="goodsClick"/>
+        <result column="goods_state" property="goodsState"/>
+        <result column="goods_commend" property="goodsCommend"/>
+        <result column="goods_close_reason" property="goodsCloseReason"/>
+        <result column="comment_num" property="commentNum"/>
+        <result column="thumbs_up_num" property="thumbsUpNum"/>
+        <result column="salenum_num" property="salenumNum"/>
+        <result column="goods_collect_num" property="goodsCollectNum"/>
+        <result column="is_del" property="isDel"/>
+        <result column="member_id" property="memberId"/>
+        <result column="stock" property="stock"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+</mapper>

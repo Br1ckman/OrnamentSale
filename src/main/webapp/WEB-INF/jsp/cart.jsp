@@ -1,0 +1,154 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <base href="<%=basePath %>"/>
+<title>购物车-合众饰品专卖</title>
+<meta name="keywords"  content="KEYWORDS..." />
+<meta name="description" content="DESCRIPTION..." />
+<meta name="author" content="HZIT" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name='apple-touch-fullscreen' content='yes'>
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="address=no">
+<link rel="icon" href="../../images/icon/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="../../images/icon/apple-touch-icon-57x57-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="../../images/icon/apple-touch-icon-120x120-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="196x196" href="../../images/icon/apple-touch-icon-196x196-precomposed.png">
+<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+<script src="../../js/jquery.js"></script>
+<script>
+$(document).ready(function(){
+  //show or hide:delBtn
+  $(".edit").toggle(function(){
+	  $(this).parent().siblings("dd").find(".delBtn").fadeIn();
+	  $(this).html("完成");
+	  $(".numberWidget").show();
+	  $(".priceArea").hide();
+	  },function(){
+	  $(this).parent().siblings("dd").find(".delBtn").fadeOut();
+	  $(this).html("编辑");
+	  $(".numberWidget").hide();
+	  $(".priceArea").show();
+      location.href = "../../cart/cart";
+		  });
+  //minus
+  $(".minus").click(function(){
+	  var currNum=$(this).siblings(".number");
+	  if(currNum.val()<=1){
+		  $(this).parents("dd").remove();
+		  currNum.val(0);
+		  nullTips();
+	  }else{
+			  currNum.val(parseInt(currNum.val())-1);
+      }
+      $.ajax({
+          url:"../../cart/changeFromCart",
+          data:{"value":$(this).attr("sign"),"count":currNum.val()},
+          dataType:"json",
+          success:function (data) {
+              console.log(data.msg);
+          }
+      });
+	  });
+  //plus
+  $(".plus").click(function(){
+	  var currNum=$(this).siblings(".number");
+	  currNum.val(parseInt(currNum.val())+1);
+      $.ajax({
+          url:"../../cart/changeFromCart",
+          data:{"value":$(this).attr("sign"),"count":currNum.val()},
+          dataType:"json",
+          success:function (data) {
+              console.log(data.msg);
+          }
+      });
+	  });
+  //delBtn
+  $(".delBtn").click(function(){
+	  $(this).parent().remove();
+	  nullTips();
+      $.ajax({
+          url:"../../cart/changeFromCart",
+          data:{"value":$(this).attr("value"),"count":0},
+          dataType:"json",
+          success:function (data) {
+              console.log(data.msg);
+          }
+      });
+	  });
+  //全选功能
+  $("#chooseAll").click(function () {
+      var flage =$(this).is(":checked");
+     if(flage) {
+         $("[class=cart] input[type=checkbox]").prop("checked",true);
+     }else {
+         $("[class=cart] input[type=checkbox]").prop("checked",false);
+     }
+  });
+
+  //isNull->tips
+  function nullTips(){
+	  if($(".cart dd").length==0){
+		  var tipsCont="<mark style='display:block;background:none;text-align:center;color:grey;'>购物车为空！</mark>"
+		  $(".cart").remove();
+		  $("body").append(tipsCont);
+		  }
+	  }
+});
+</script>
+</head>
+<body>
+<!--header-->
+<header>
+ <a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
+ <h1>购物车</h1>
+</header>
+<dl class="cart">
+ <dt>
+  <label><input id="chooseAll" type="checkbox"/>全选</label>
+  <a class="edit">编辑</a>
+ </dt>
+ <c:forEach items="${goodsForCart.getContent()}" var="b">
+  <c:set var="index" value="${b.goodsId}"></c:set>
+  <dd>
+   <input type="checkbox"/>
+   <a href="product.jsp" class="goodsPic"><img src="../../${b.goodsImage}"/></a>
+   <div class="goodsInfor">
+    <h2>
+     <a href="../../cart/product?id=${b.goodsId}">${b.goodsSubtitle}</a>
+     <span id="count">${counts[index-4]}</span>
+    </h2>
+    <div class="priceArea" >
+     <strong>${b.goodsPrice}</strong>
+     <del>${b.goodsSellPrice}</del>
+    </div>
+    <div class="numberWidget">
+     <input type="button" value="-" class="minus" sign="${b.goodsId}"/>
+     <input type="text" value="${counts[index-4]}" disabled  class="number"/>
+     <input type="button" value="+"  class="plus" sign="${b.goodsId}"/>
+    </div>
+   </div>
+   <a class="delBtn" value="${index}">删除</a>
+  </dd>
+ </c:forEach>
+</dl>
+<!--bottom nav-->
+<div style="height:1rem;"></div>
+<aside class="btmNav">
+ <ul>
+  <li><a class="cart_icon"><em>${countAll}</em></a></li>
+  <li><a>合计：${money}</a></li>
+  <li><a href="../../cart/confirmOrder">立即下单</a></li>
+ </ul>
+</aside>
+</body>
+</html>

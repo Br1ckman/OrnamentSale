@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.it.mapper.OrderinfoMapper">
+
+    <sql id="orderinfoBaseColumnSql">
+        order_id,
+        order_sn,
+        buyer_id,
+        buyer_name,
+        buyer_tel,
+        add_time,
+        payment_code,
+        payment_time,
+        finnshed_time,
+        order_amount,
+        order_state,
+        created_time,
+        updated_time
+    </sql>
+
+    <sql id="orderinfoBaseWhereSql">
+        <if test="map!=null">
+            <where>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.orderId)">
+                    order_id = #{map.orderId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.orderSn)">
+                    AND order_sn = #{map.orderSn}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.buyerId)">
+                    AND buyer_id = #{map.buyerId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.buyerName)">
+                    AND buyer_name = #{map.buyerName}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.buyerTel)">
+                    AND buyer_tel = #{map.buyerTel}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.addTime)">
+                    AND add_time = #{map.addTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.paymentCode)">
+                    AND payment_code = #{map.paymentCode}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.paymentTime)">
+                    AND payment_time = #{map.paymentTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.finnshedTime)">
+                    AND finnshed_time = #{map.finnshedTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.orderAmount)">
+                    AND order_amount = #{map.orderAmount}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.orderState)">
+                    AND order_state = #{map.orderState}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.createdTime)">
+                    AND created_time = #{map.createdTime}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.updatedTime)">
+                    AND updated_time = #{map.updatedTime}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <insert id="insertOrderinfo" parameterType="cn.jxufe.it.entity.Orderinfo">
+        INSERT INTO orderinfo(
+        <include refid="orderinfoBaseColumnSql"/>
+        )VALUES(
+            #{orderId},
+            #{orderSn},
+            #{buyerId},
+            #{buyerName},
+            #{buyerTel},
+            #{addTime},
+            #{paymentCode},
+            #{paymentTime},
+            #{finnshedTime},
+            #{orderAmount},
+            #{orderState},
+            #{createdTime},
+            #{updatedTime}
+        )
+    </insert>
+
+    
+    <delete id="deleteOrderinfoByOrderId" parameterType="Integer">
+        DELETE FROM orderinfo WHERE order_id = #{orderId}
+    </delete>
+
+    <update id="updateOrderinfo" parameterType="cn.jxufe.it.entity.Orderinfo">
+        UPDATE orderinfo
+        <set>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(orderSn)">
+                order_sn = #{orderSn} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(buyerId)">
+                buyer_id = #{buyerId} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(buyerName)">
+                buyer_name = #{buyerName} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(buyerTel)">
+                buyer_tel = #{buyerTel} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(addTime)">
+                add_time = #{addTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(paymentCode)">
+                payment_code = #{paymentCode} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(paymentTime)">
+                payment_time = #{paymentTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(finnshedTime)">
+                finnshed_time = #{finnshedTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(orderAmount)">
+                order_amount = #{orderAmount} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(orderState)">
+                order_state = #{orderState} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(createdTime)">
+                created_time = #{createdTime} ,
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(updatedTime)">
+                updated_time = #{updatedTime} ,
+            </if>
+        </set>
+        WHERE order_id = #{orderId}
+    </update>
+
+    <select id="searchOrderinfoByParams" parameterType="map" resultMap="orderinfoMap">
+        SELECT
+        <include refid="orderinfoBaseColumnSql"/>
+        FROM orderinfo
+        <include refid="orderinfoBaseWhereSql"/>
+    </select>
+
+    <resultMap type="cn.jxufe.it.entity.Orderinfo" id="orderinfoMap">
+        <id column="order_id" property="orderId"/>
+        <result column="order_sn" property="orderSn"/>
+        <result column="buyer_id" property="buyerId"/>
+        <result column="buyer_name" property="buyerName"/>
+        <result column="buyer_tel" property="buyerTel"/>
+        <result column="add_time" property="addTime"/>
+        <result column="payment_code" property="paymentCode"/>
+        <result column="payment_time" property="paymentTime"/>
+        <result column="finnshed_time" property="finnshedTime"/>
+        <result column="order_amount" property="orderAmount"/>
+        <result column="order_state" property="orderState"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+</mapper>
